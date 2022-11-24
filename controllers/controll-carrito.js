@@ -1,4 +1,4 @@
-const Carrito = require("../data-carrito");
+const Carrito = require("../carritoClass");
 const db = new Carrito;
 
 
