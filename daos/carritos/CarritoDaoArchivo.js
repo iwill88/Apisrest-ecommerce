@@ -1,17 +1,15 @@
-const Carrito = require("../carritoClass");
-const db = new Carrito;
-
-
+const {Carritos} = require("../../containers/ContenedorArchivo");
+const CarritosDAO = new Carritos;
 
 const getAllCarrito = async (req,res)=>{
     
-    res.json( await db.getAll());
+    res.json( await CarritosDAO.getAll());
 }
 
 const getCarrito = async (req,res)=>{
     
 
-    const carrito = await db.find(parseInt(req.params.id));
+    const carrito = await CarritosDAO.find(parseInt(req.params.id));
     console.log(carrito);
     res.json(carrito);
 }
@@ -19,7 +17,7 @@ const getCarrito = async (req,res)=>{
 const postCarrito = async (req,res)=>{
     
 
-    const newCarrito= await db.post(req.body)
+    const newCarrito= await CarritosDAO.post(req.body)
   
    res.json(newCarrito);
 }
@@ -28,21 +26,21 @@ const postCarrito = async (req,res)=>{
 const addProducts = async (req,res)=>{
     
 
-    const carrito= await db.addProducts(req.params.id,req.body);
+    const carrito= await CarritosDAO.addProducts(req.params.id,req.body);
     res.json(carrito);
 }
 
 const deleteCart = async (req,res)=>{
     
 
-    const carrito= await db.deleteCart(req.params.id);
+    const carrito= await CarritosDAO.deleteCart(req.params.id);
     res.json(carrito);
 }
 
 const deleteProduct = async (req,res)=>{
     
 
-    const carrito= await db.deleteProduct(req.params.id,req.params.id_prod);
+    const carrito= await CarritosDAO.deleteProduct(req.params.id,req.params.id_prod);
     res.json(carrito);
 }
 

@@ -1,12 +1,14 @@
-const express = require("express");
-
+const express = require("express"); 
 const app = express();
+const {MongoConnection} = require('./config/MongoDB/mongoConnection.js')
+const {FirebaseConnection} = require('./config/Firebase/firebaseConnection.js')
+FirebaseConnection();
 
 const PORT = 8080;
 const path = require('path');
 const logRequestInfo = require("./middlewares/logRequestInfo");
-const routerProductos = require("./src/productos");
-const routerCarrito = require("./src/carrito");
+const routerProductos = require("./routers/productos");
+const routerCarrito = require("./routers/carrito");
 
 
 
@@ -14,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+MongoConnection();
 
 //Router productos
 
