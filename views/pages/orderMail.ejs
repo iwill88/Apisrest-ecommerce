@@ -1,0 +1,47 @@
+<div>
+    <h1 class="text-primary pb-4">Información de la orden</h1>
+        
+    <div class="d-flex">
+        
+        <div class="infoProfileContainer">
+
+            <div class="d-flex align-items-center profile">
+                <h3 class=" fs-5 fw-bold profileTitle">Codigo de cliente</h3>
+                <div class="infoProfile"><%= orderBy._id  %></div>
+            </div>
+
+            <h3 class=" fs-5 fw-bold profileTitle">Productos</h3>
+            
+            <% productos.forEach( producto=> {%>
+                
+                <div class="d-flex align-items-center profile" >
+                    <h4 class=" fs-5 fw-bold profileTitle">Nombre del producto</h4>
+                    <div class="infoProfile"><%= producto.item.title %></div>
+                </div>
+                <div class="d-flex align-items-center profile">
+                    <h4 class=" fs-5 fw-bold profileTitle">Cantidad por producto</h4>
+                    <div class="infoProfile"><%= producto.quantity %></div>
+                </div>
+                <div class="d-flex align-items-center profile">
+                    <h4 class=" fs-5 fw-bold profileTitle">Costo por producto</h4>
+                    <div class="infoProfile"><%= producto.total  %></div>
+                </div>
+               
+                <%}
+                
+            ) %>
+
+            <div class="d-flex align-items-center profile">
+                <h3 class=" fs-5 fw-bold profileTitle">Cantidad total de productos</h3>
+                <div class="infoProfile"><%= totalQty  %></div>
+            </div>
+
+            <div class="d-flex align-items-center profile">
+                <h3 class=" fs-5 fw-bold profileTitle">Costo total de la orden</h3>
+                <div class="infoProfile"><%= subTotal  %></div>
+            </div>
+
+            
+        </div>
+    </div>
+</div>

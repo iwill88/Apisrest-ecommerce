@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+  <!--<%- include('../partials/scripts'); %>-->
+</head>
+<body>
+    <div class="jumbotron">
+          <div>
+            <div class="d-flex justify-content-end">
+                <form class="mr-3" id="cart" action="/login" method="get">
+                    <input type="submit" value="Home" class="btn btn-primary">
+                  </form>
+                <form class="mr-3" id="cart" action="/products" method="get">
+                  <input type="submit" value="Products" class="btn btn-danger">
+                </form>
+                <form class="mr-3" id="cart" action="/cart" method="get">
+                  <input type="submit" value="Cart" class="btn btn-success">
+                </form>
+                <form class="mr-3" id="profile" action="/profile" method="get">
+                  <input type="submit" value="Profile" class="btn btn-secondary">
+                </form>
+                <form id="logOut" action="/logout" method="post">
+                  <input type="submit" value="Desloguear" class="btn btn-warning">
+                </form>
+              </div>
+        
+        </div>
+
+        <h1 class="text-primary pb-4">Carrito de <%= name %> </h1>
+        
+        <div class="d-flex flex-column">
+            
+            <div class="infoProfileContainer">
+
+                <h2 class="text-danger pb-4">Productos</h1>
+
+                <% productos.productos.forEach( producto=> {%>
+                
+                    <div class="pb-5">
+                        <div class="d-flex align-items-center" >
+                            <h4 class=" fs-6 fw-bold " style="width: 300px;">Nombre del libro</h4>
+                            <div class=""><%= producto.item.title %></div>
+                        </div>
+                        <div class="d-flex align-items-center" >
+                            <h4 class=" fs-5 fw-bold " style="width: 300px;">Autor</h4>
+                            <div class=""><%= producto.item.author %></div>
+                        </div>
+                        <div class="d-flex align-items-center" >
+                            <h4 class=" fs-5 fw-bold " style="width: 300px;">Precio</h4>
+                            <div class="">S/. <%= producto.item.price %></div>
+                        </div>
+                        <div class="d-flex align-items-center" >
+                            <h4 class=" fs-5 fw-bold " style="width: 300px;">Cantidad</h4>
+                            <div class=""><%= producto.quantity %></div>
+                        </div>
+                        <div class="d-flex align-items-center" >
+                            <h4 class=" fs-5 fw-bold " style="width: 300px;">Costo total del producto</h4>
+                            <div class="">S/. <%= producto.total %></div>
+                        </div>
+                    </div>
+                  
+                  
+                   
+                 <%}
+
+                 ) %>
+
+
+            </div>
+
+            <h2 class="text-success pb-4">Detalle de la compra</h1>
+
+                <div class="d-flex align-items-center" >
+                <h3 class=" fs-5 fw-bold " style="width: 500px;">Cantidad total de productos</h3>
+                <div ><%= productos.totalQty %></div>
+            </div>
+
+            <div class="d-flex align-items-center" >
+                <h3 class=" fs-5 fw-bold " style="width: 500px;">Costo total de la compra</h3>
+                <div >S/. <%= productos.subTotal  %></div>
+            </div>
+            <form class="pt-4" action="/api/orders/createOrder" method="post">
+                <input  class="hidden" type="text" name="id_user" value=<%= id_user %>>
+                <input type="submit" value="Finalizar compra" class="btn btn-warning">
+              </form>
+        </div>
+      </div>
+</body>
+</html>

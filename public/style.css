@@ -60,3 +60,29 @@
     height:20px;
 }
 
+.infoProfile {
+    font-size: 20px;
+    width:180px;
+}
+
+.profile {
+    width:300px;
+    
+}
+
+.profileTitle{
+    width:120px;
+}
+
+.infoProfileContainer {
+    padding-right:200px;
+}
+
+.imageProfile img {
+    width:300px;
+    height:auto
+}
+
+.hidden {
+    display:none;
+}

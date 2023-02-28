@@ -1,43 +1,31 @@
-const express = require("express");
-const { Router } = require("express");
 
-require('dotenv').config()
+import { Router } from "express"
+
+import dotenv from "dotenv"
+dotenv.config()
+
+import productController from "../controllers/productController.js"
+import roleVerification from "../middlewares/roleVerification.js"
 
 let db 
-const SOURCE = process.env.SOURCE
-if  (SOURCE === "Memoria") {
-     const {ProductoDaoMem} = require("../daos/index")
-     db = ProductoDaoMem
-  }
 
-if  (SOURCE === "Mongo") {
-    const {ProductoDaoMongo} = require("../daos/index")
-     db = ProductoDaoMongo
- }
-
-if  (SOURCE === "Firebase") {
-    const {ProductoDaoFirebase} = require("../daos/index")
-     db = ProductoDaoFirebase
- }
-
- if  (SOURCE === "Archivo") {
-    const {ProductoDaoArchivo} = require("../daos/index")
-     db = ProductoDaoArchivo
- }
+db=productController
 
 
-const roleVerificacion= require("../middlewares/roleVerification");
 
-const routerProductos = express.Router();
+const routerProductos = Router();
 
-routerProductos.get('/', db.getAll);
 
-routerProductos.get('/:id', roleVerificacion, db.find);
 
-routerProductos.post ('/', roleVerificacion, db.post)
 
-routerProductos.delete('/:id', roleVerificacion, db.deleteProduct);
+routerProductos.get('/',  roleVerification, db.getAll);
 
-routerProductos.put('/:id', roleVerificacion, db.update);
+routerProductos.get('/:id', roleVerification, db.find);
 
-module.exports = routerProductos;
+routerProductos.post ('/', roleVerification, db.post)
+
+routerProductos.delete('/:id', roleVerification, db.deleteProduct);
+
+routerProductos.put('/:id', roleVerification, db.update);
+
+export default routerProductos;

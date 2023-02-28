@@ -3,4 +3,4 @@ const logRequestInfo = (request, response, next) => {
     next();
   }
   
-module.exports = logRequestInfo
+export default logRequestInfo

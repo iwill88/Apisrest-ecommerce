@@ -1,50 +1,39 @@
-const express = require("express");
-const { Router } = require("express");
+import {Router} from "express"
 
-require('dotenv').config()
+import dotenv from "dotenv"
+dotenv.config()
+
+import cartController from "../controllers/cartController.js";
+import  roleVerification  from "../middlewares/roleVerification.js";
 
 let db
-const SOURCE = process.env.SOURCE
-if  (SOURCE === "Memoria") {
-    const {CarritoDaoMem} = require("../daos/index")
-    db = CarritoDaoMem
-  }
-
-if  (SOURCE === "Mongo") {
-    const {CarritoDaoMongo} = require("../daos/index")
-    db = CarritoDaoMongo
- }
-
-if  (SOURCE === "Firebase") {
-    const {CarritoDaoFirebase} = require("../daos/index")
-    db = CarritoDaoFirebase
- }
-
- if  (SOURCE === "Archivo") {
-    const {CarritoDaoArchivo} = require("../daos/index")
-    db = CarritoDaoArchivo
- }
+db= cartController
 
 
+const routerCarrito = Router();
 
 
-const roleVerificacion= require("../middlewares/roleVerification");
+routerCarrito.get('/',  roleVerification, db.getAllCarrito);
 
-const routerCarrito = express.Router();
+routerCarrito.get('/:id/productos', roleVerification, db.getCarrito);
+
+routerCarrito.post ('/', roleVerification, db.postCarrito);
+
+routerCarrito.post('/:id/productos',  roleVerification, db.addProducts);
+
+routerCarrito.post ('/addProduct', roleVerification, db.addProduct);
+
+routerCarrito.get ('/:id_user', roleVerification, db.getCartbyUser);
+
+routerCarrito.post ('/updateCant/:id_user', roleVerification, db.updateProductQuantity);
+
+routerCarrito.post ('/removeProd/:id_user', roleVerification, db.removeProduct);
+
+routerCarrito.post ('/emptyCart/:id_user', roleVerification, db.emptyCart);
+
+routerCarrito.delete('/:id', roleVerification, db.deleteCart);
+
+routerCarrito.delete('/:id/productos/:id_prod', roleVerification, db.deleteProduct);
 
 
-
-routerCarrito.get('/', roleVerificacion,  db.getAllCarrito);
-
-routerCarrito.get('/:id/productos', roleVerificacion, db.getCarrito);
-
-routerCarrito.post ('/', roleVerificacion, db.postCarrito);
-
-routerCarrito.post('/:id/productos',roleVerificacion,  db.addProducts);
-
-routerCarrito.delete('/:id', roleVerificacion, db.deleteCart);
-
-routerCarrito.delete('/:id/productos/:id_prod', roleVerificacion,  db.deleteProduct);
-
-
-module.exports = routerCarrito;
+export default routerCarrito;

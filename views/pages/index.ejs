@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+
+  <!--<%- include('../partials/scripts'); %>-->
+</head>
+<body>
+    <div class="jumbotron">
+          <div>
+            <div class="d-flex justify-content-between align-items-center">
+              <h1 class="text-success pb-4">Bienvenido <%= usuario %></h1>
+              <div class="d-flex">
+                <form class="mr-3" id="cart" action="/products" method="get">
+                  <input type="submit" value="Products" class="btn btn-danger">
+                </form>
+                <form class="mr-3" id="cart" action="/cart" method="get">
+                  <input type="submit" value="Cart" class="btn btn-success">
+                </form>
+                <form class="mr-3" id="profile" action="/profile" method="get">
+                  <input type="submit" value="Profile" class="btn btn-secondary">
+                </form>
+                <form id="logOut" action="/logout" method="post">
+                  <input type="submit" value="Desloguear" class="btn btn-warning">
+                </form>
+              </div>
+              
+              
+            </div>
+           
+          </div>
+
+
+      </div>
+</body>
+</html>

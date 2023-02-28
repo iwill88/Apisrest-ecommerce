@@ -1,0 +1,4 @@
+[2023-02-27T15:01:39.519] [WARN] warn - ruta /favicon.ico metodo GET no implementada
+[2023-02-27T18:32:00.487] [WARN] warn - ruta /api/orders/63f93184d08a08e05bc92ad9 metodo POST no implementada
+[2023-02-27T18:43:52.192] [WARN] warn - ruta /api/orders/63f93184d08a08e05bc92ad9 metodo POST no implementada
+[2023-02-27T18:44:07.687] [WARN] warn - ruta /api/orders metodo POST no implementada

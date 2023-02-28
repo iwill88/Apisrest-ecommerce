@@ -1,38 +1,15 @@
-const mongoose =require('mongoose')
-const carritosDB = require('../../database/carritoDB.json') 
+import mongoose from 'mongoose'
+import carritosDB from "../../database/carritoDB.json" assert { type: "json" }
+import data from "../../data.json" assert { type: "json" }
+import { Product } from '../../models/productSchema.js'
 
 
-const productoSchema = new mongoose.Schema({
-    timestamp: { type: String, required: true },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    code: { type: String, required: true},
-    thumbnail: { type: String, required: true },
-    price: { type: Number, required: true },
-    stock: { type: Number, required: true },
-})
-
-const ProductosDAO = mongoose.model('productos', productoSchema)
-
-const carritoSchema = new mongoose.Schema({
-    timestamp: { type: String, required: true },
-    productos: [{
-        timestamp: { type: String, required: true },
-        title: { type: String, required: true },
-        description: { type: String, required: true },
-        code: { type: String, required: true},
-        thumbnail: { type: String, required: true },
-        price: { type: Number, required: true },
-        stock: { type: Number, required: true },
-    }],
-    
-})
-
-const CarritosDAO = mongoose.model('carritos', carritoSchema)
+import dotenv from "dotenv"
+dotenv.config()
 
 const MongoConnection = async () =>{
     try {
-        const URL = 'mongodb+srv://ecommerce:ecommerce88@cluster0.jgoashy.mongodb.net/ecommerce?retryWrites=true&w=majority'
+        const URL = process.env.MONGO_URL
         await mongoose.connect(URL, {
             serverSelectionTimeoutMS: 5000,
         })
@@ -42,7 +19,7 @@ const MongoConnection = async () =>{
             /* ------------------------------------------------------------------- */
             /*   Escritura de la base de datos: ecommerce, collection: usuarios    */
             /* ------------------------------------------------------------------- */
-            //await ProductosDAO.create({"timestamp":"20/11/2022","title":"Calculadora","description":"Calculadora nueva","code":2000110,"thumbnail":"https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-256.png","price":10,"stock":1},{"id":3,"timestamp":"11/09/2022","title":"Globo terraqueo","description":"Globo terraqueo nuevo","code":2000220,"thumbnail":"https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png","price":11,"stock":2})
+           // await Product.create(data)
             //console.log('PRODUCTO agregado!')
     
             //----------------------------------------------------------------------------
@@ -72,4 +49,4 @@ const MongoConnection = async () =>{
     
 }
 
-module.exports = {MongoConnection, CarritosDAO, ProductosDAO}
+export {MongoConnection}

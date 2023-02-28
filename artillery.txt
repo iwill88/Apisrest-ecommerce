@@ -1,0 +1,18 @@
+FORK 
+
+artillery quick --count 50 --num 20 http://localhost:8080/products --output fork.txt
+
+CLUSTER 
+
+artillery quick --count 50 --num 20 http://localhost:8080/products --output cluster.txt
+
+
+ANALISIS
+
+En el modo Fork tenemos solo a 1 proceso manejando todas las llamadas, en cambio en modo CLUSTER tenemos varios procesos dividiendose las tareas.
+
+Si bien es cierto el modo Fork puede manejar mas llamadas, es algo contraproducente si es que nuestro servidor no posee tantos procesos para manejar, esto genera que se sobrecargue.
+
+Al correr en modo CLUSTER vamos a poder optimizar todos los recursos.
+
+La media de respuesta fue mayor en modo FORK y menor en modo CLUSTER

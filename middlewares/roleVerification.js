@@ -5,4 +5,4 @@ const roleVerification = (req, res, next) => {
     next();
   }
   
-module.exports = roleVerification
+export  default roleVerification

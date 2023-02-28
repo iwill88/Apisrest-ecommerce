@@ -1,0 +1,79 @@
+[
+    {
+        "timestamp":"24/02/2023",
+        "title":"El extranjero",
+        "author": "Albert Camus",
+        "description": "Libro escrito por Albert Camus",
+        "code": "11122",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/libreria-melquiades-6e32c.appspot.com/o/el-extranjero.jpg?alt=media&token=8174ff04-f0b3-4fb4-88cc-57caa7a42136",
+        "price": 50 ,
+        "stock": 3,
+        "category": "filosofía"
+    },
+    {
+        "timestamp":"24/02/2023",
+        "title":"Cien años de soledad",
+        "author": "Gabriel Garcia Marquez",
+        "description": "Libro escrito por Gabriel Garcia Marquez",
+        "code": "11123",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/libreria-melquiades-6e32c.appspot.com/o/cien-a%C3%B1os-de-soledad.jpg?alt=media&token=ea554ffe-be06-447f-941b-e355537d5fe3",
+        "price": 60 ,
+        "stock": 2,
+        "category": "fantasía"
+    },
+    {
+        "timestamp":"24/02/2023",
+        "title":"Kafka en la orilla",
+        "author": "Haruki Murakami",
+        "description": "Libro escrito por Haruki Murakami",
+        "code": "11124",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/libreria-melquiades-6e32c.appspot.com/o/kafka-en-la-orilla.jpg?alt=media&token=b0eac4b3-edfc-44fd-b8ce-beb907e939d2",
+        "price": 30,
+        "stock":3, 
+        "category": "fantasía"
+     
+    },
+    {
+        "timestamp":"24/02/2023",
+        "title":"Rebelión en la granja",
+        "author": "George Orwell",
+        "description": "Libro escrito por George Orwell",
+        "code": "11125",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/libreria-melquiades-6e32c.appspot.com/o/rebelion-en-la-granja.jpg?alt=media&token=5a22776a-85df-4793-8c69-fe4f84ec6b20",
+        "price": 32,
+        "stock":2, 
+        "category": "fantasía"
+     
+    },
+    {
+        "timestamp":"24/02/2023",
+        "title":"El elefante desaparece",
+        "author": "Haruki Murakami",
+        "description": "Libro escrito por Haruki Murakami",
+        "code": "11128",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/libreria-melquiades-6e32c.appspot.com/o/el-elefante-desaparece.jpeg?alt=media&token=3699f16e-2af5-48cb-9b4e-555328235385",
+        "price": 32,
+        "stock":2, 
+        "category": "fantasía"
+     
+    },
+    {
+        "timestamp":"24/02/2023",
+        "title":"1984",
+        "author": "George Orwell",
+        "description": "Libro escrito por George Orwell",
+        "code": "11126",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/libreria-melquiades-6e32c.appspot.com/o/1984.jpg?alt=media&token=e67da9c7-553f-4a94-89e7-bd52ab2da043",
+        "price": 32,
+        "stock":2, 
+        "category": "ciencia-ficción"
+     
+    }
+
+
+  
+
+
+
+]
+
