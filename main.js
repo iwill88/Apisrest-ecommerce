@@ -29,7 +29,7 @@ const Products = new ProductService;
 
 const Cart = new CartService;
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8081;
 
 
 app.use(express.json());
