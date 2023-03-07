@@ -9,7 +9,7 @@ import { loggerError } from "../loggers/loggers.js";
 import CartDaoMongoDb from '../daos/CartMongoDao.js';
 import ProductDaoMongoDb from '../daos/ProductMongoDao.js';
 import UserDaoMongoDb from '../daos/UserMongoDao.js';
-import OrderDaoMongoDb from '../daos/OrderMOngoDao.js';
+import OrderDaoMongoDb from '../daos/OrderMongoDao.js';
 
 let CartDAO = new CartDaoMongoDb();
 let UserDAO = new UserDaoMongoDb();
