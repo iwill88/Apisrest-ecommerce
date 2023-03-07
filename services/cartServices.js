@@ -2,34 +2,31 @@ import { Cart } from '../models/cartSchema.js';
 import { Product } from '../models/productSchema.js';
 import { User } from '../models/userSchema.js';
 import { loggerError } from "../loggers/loggers.js";
+import CartDaoMongoDb from '../daos/CartMongoDao.js';
+import ProductDaoMongoDb from '../daos/ProductMongoDao.js';
+import UserDaoMongoDb from '../daos/UserMongoDao.js';
+
+let CartDAO = new CartDaoMongoDb();
+let ProductDAO = new ProductDaoMongoDb();
+let UserDAO = new UserDaoMongoDb();
 
 
-class CartService {
-    constructor  () {
-       
-       this.databaseCart = Cart
-       this.databaseProduct = Product
-       this.databaseUser = User
-       
-   }
-
-   getAll(){
+   const getAllCarts =async() => {
 
       try {
-        return  this.databaseCart.find({});
+        return  await CartDAO.getAll();
       } catch (err) {
         console.log(err)
 
       }
 
-      
    }
 
-   find(_id) {
+   const getCartById = async (id) => {
        
     try {
-      console.log("id",_id);
-       return this.databaseCart.findById({_id},{"productos":1});
+      console.log("id",id);
+       return await CartDAO.getById(id);
     } catch (err) {
       console.log(err)
 
@@ -39,7 +36,7 @@ class CartService {
        
    }
 
-   async post(newCart) {
+   const createCart =async(newCart)=> {
 
     try {
       let cart = {
@@ -47,7 +44,7 @@ class CartService {
         ...newCart,
         
     }
-    await this.databaseCart.create(cart);
+    await CartDAO.save(cart);
     return cart;
     } catch (err) {
       console.log(err)
@@ -56,27 +53,22 @@ class CartService {
 
    }
 
-   async addProducts(_id,newProducts) {
+   const addProducts = async(id,newProducts) => {
 
       try {
 
-        await this.databaseCart.findOneAndUpdate({_id},{$push:{"productos":newProducts}});
+        await CartDAO.updateById(id,newProducts);
         return newProducts;
-
       } catch (err) {
         console.log(err)
-
       }
-
-
-       
    }
 
-    deleteCart(_id) {
+    const deleteCart = async(id) => {
 
       try {
-        console.log("id",_id);
-        return this.databaseCart.deleteOne({_id});
+        console.log("id",id);
+        return CartDAO.deleteById(id);
       } catch (err) {
         console.log(err)
       }
@@ -84,30 +76,20 @@ class CartService {
     
    }
 
-   deleteProduct(idCart,idProduct) {
-
+   /*const deleteProduct = async (idCart,idProduct) => {
       try {
         return  this.databaseCart.findOneAndUpdate({_id:idCart},{$pull:{"productos":{_id:idProduct}}});
 
       } catch (err){
         console.log(err)
-
       }
+   }*/
 
-    
-       
-   }
-
-   async getCart(id_user) {
+   const getCart = async(id_user) => {
 
     try {
       const owner = id_user
-      return await this.databaseCart.findOne({ owner }).populate({
-          path: "productos",
-          populate: {
-            path: "item",
-          },
-        })
+      return await CartDAO.getByIdPopulate(owner,"productos","item")
     } catch (err) {
       console.log(err)
 
@@ -115,22 +97,16 @@ class CartService {
 
    }
 
-
-   async addProduct(quantity,id_prod,id_user) {
+   const addProduct = async(quantity,id_prod,id_user) => {
      
      const owner = id_user;
 
-      const cart = await this.databaseCart.findOne({ owner }).populate({
-        path: "productos",
-        populate: {
-          path: "item",
-        },
-      });
+      const cart = await CartDAO.getByIdPopulate(owner,"productos","item")
+        
             
-      const user = await this.databaseUser.findById(owner);
+      const user = await UserDAO.getById(owner);
   
-      const foundProduct = await this.databaseProduct.findById(id_prod);
-
+      const foundProduct = await ProductDAO.getById(id_prod);
 
       let products = [];
   
@@ -206,19 +182,14 @@ class CartService {
 
    }
 
-   async updateProductQuantity(value, id_prod, id_user)  {
+   const updateProductQuantity = async (value, id_prod, id_user) =>  {
     const owner = id_user;
   
   
     try {
-      const product = await this.databaseProduct.findById(id_prod);
+      const product = await ProductDAO.getById(id_prod);
   
-      const cart = await this.databaseCart.findOne({ owner }).populate({
-        path: "productos",
-        populate: {
-          path: "item",
-        },
-      });
+      const cart = await CartDAO.getByIdPopulate(owner,"productos","item")
   
       if (!product) {
         console.log("No se encontro el producto" );
@@ -273,19 +244,14 @@ class CartService {
 
   }
 
-  async removeProduct(id_prod,id_user) {
+  const removeProduct = async(id_prod,id_user) => {
     
     const owner = id_user
 
     try {
-        const cart = await this.databaseCart.findOne({ owner }).populate({
-          path: "productos",
-          populate: {
-            path: "item",
-          },
-        });
+        const cart = await CartDAO.getByIdPopulate(owner,"productos","item")
     
-        const product = await this.databaseProduct.findById(id_prod);
+        const product = await ProductDAO.getById(id_prod);
     
         if (!product) {
             console.log("No se encontro el producto" );
@@ -320,11 +286,11 @@ class CartService {
 
   }
 
-  async emptyCart(id_user) {
+  const emptyCart = async (id_user) => {
     const owner = id_user;
 
     try {
-        const cart = await this.databaseCart.findOne({ owner });
+        const cart = await CartDAO.getByCriteria({ owner });
 
         cart.productos = [];
         cart.subTotal = 0;
@@ -341,9 +307,20 @@ class CartService {
     };
     
     }
-}
 
-export  {CartService}
+
+export   {
+  getAllCarts,
+  getCartById,
+  createCart,
+  addProducts,
+  deleteCart,
+  getCart,
+  addProduct,
+  updateProductQuantity,
+  removeProduct,
+  emptyCart
+}
 
 
 

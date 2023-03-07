@@ -8,7 +8,7 @@ db= orderController
 
 const routerOrders = Router();
 
-routerOrders.get('/:id_user',  roleVerification, db.findOrderbyId);
+routerOrders.get('/:id',  roleVerification, db.findOrderbyId);
 
 routerOrders.post('/createOrder',  roleVerification, db.createOrder);
 

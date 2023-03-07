@@ -33,7 +33,7 @@ routerCarrito.post ('/emptyCart/:id_user', roleVerification, db.emptyCart);
 
 routerCarrito.delete('/:id', roleVerification, db.deleteCart);
 
-routerCarrito.delete('/:id/productos/:id_prod', roleVerification, db.deleteProduct);
+//routerCarrito.delete('/:id/productos/:id_prod', roleVerification, db.deleteProduct);
 
 
 export default routerCarrito;

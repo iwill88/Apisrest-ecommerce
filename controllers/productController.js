@@ -1,37 +1,35 @@
-import { ProductService } from "../services/productServices.js";
-
-const ProductController = new ProductService;
+import * as ProductService from "../services/productServices.js";
 
 
 const getAll = async (req,res)=>{
     
-    res.json(await ProductController.getAll());
+    res.json(await ProductService.getAllProducts());
     
 }
 
 const find = async (req,res)=>{
     
-    const producto = await ProductController.find(req.params.id);
+    const producto = await ProductService.getProductById(req.params.id);
     console.log(producto);
     res.json(producto);
 }
 
 const post = async (req,res)=>{
     
-    const newProduct = await ProductController.post(req.body)
+    const newProduct = await ProductService.createProduct(req.body)
   
     res.json(newProduct);
 }
 
 const deleteProduct = async (req,res)=>{
     
-    const producto= await ProductController.delete(req.params.id);
+    const producto= await ProductService.deleteProductById(req.params.id);
     res.json(producto);
 }
 
 const update = async (req,res)=>{
     
-    const updatedProduct= await ProductController.update(req.params.id,req.body);
+    const updatedProduct= await ProductService.updateProductById(req.params.id,req.body);
     res.json(updatedProduct);
 }
 

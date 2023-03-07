@@ -6,31 +6,29 @@ import { sendOrderMailer } from '../helpers/sendOrderMailer.js';
 import { orderSMS } from '../helpers/orderSMS.js';
 import { orderWhatsapp } from '../helpers/orderWhatsapp.js';
 import { loggerError } from "../loggers/loggers.js";
+import CartDaoMongoDb from '../daos/CartMongoDao.js';
+import ProductDaoMongoDb from '../daos/ProductMongoDao.js';
+import UserDaoMongoDb from '../daos/UserMongoDao.js';
+import OrderDaoMongoDb from '../daos/OrderMOngoDao.js';
 
-class OrderService {
-    constructor  () {
-       
-        this.databaseCart = Cart
-        this.databaseProduct = Product
-        this.databaseUser = User
-        this.databaseOrder = Order
-        
-    }
+let CartDAO = new CartDaoMongoDb();
+let UserDAO = new UserDaoMongoDb();
+let OrderDAO = new OrderDaoMongoDb()
 
-    findOrderById(_id) {
+
+
+    const findOrderById = async(id) => {
 
         try {
-            console.log("id",_id);
-            return this.databaseOrder.findById({_id});
+            console.log("id",id);
+            return await OrderDAO.getById(id);
         } catch (err) {
             console.log(err)
         }
-
-
-       
+  
     }
 
-    async createOrder (id_user) {
+    const createOrder = async(id_user) => {
 
         try {
 
@@ -38,20 +36,15 @@ class OrderService {
 
             let productosOrder = []
     
-            const user = await this.databaseUser.findOne({ owner })
+            const user = await UserDAO.getByCriteria(owner)
     
-            const cart = await this.databaseCart.findOne({ owner }).populate({
-                path: "productos",
-                populate: {
-                    path: "item",
-                    },
-              });
+            const cart = await CartDAO.getByIdPopulate(owner,"productos","item")
     
                 cart.productos.forEach((item) => {
                     productosOrder.push(item)
                 })
                 
-    
+        
             const newOrder = await new Order({
                 timestamp: new Date().toISOString(),
                 productos: productosOrder,
@@ -61,10 +54,13 @@ class OrderService {
     
             });
     
+ 
+            
             const savedOrder = await newOrder.save();
               
             user.orders = savedOrder._id;
-          
+           
+
             sendOrderMailer(savedOrder,user)
             orderSMS(user.phone)
             orderWhatsapp(user.name, user.email)
@@ -82,6 +78,7 @@ class OrderService {
     }
 
 
+export {
+    findOrderById,
+    createOrder
 }
-
-export {OrderService}

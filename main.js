@@ -1,36 +1,29 @@
 import express from "express"
-import { MongoConnection } from "./config/MongoDB/mongoConnection.js";
 import bodyParser from "body-parser"
-import path from "path"
+import path from "path";
 import logRequestInfo from "./middlewares/logRequestInfo.js";
 import routerProductos from "./routers/productos.js";
 import routerCarrito from "./routers/carrito.js";
 import routerUsers from "./routers/user.js";
 import routerOrders from "./routers/order.js";
-import session from "express-session"
+import session from "./config/Session/session.js";
 import passport from "passport"
-import MongoStore from "connect-mongo";
 import upload from "./helpers/multer.js";
 import { passportConfig } from "./config/Passport/passport.js";
 import {logger,loggerWarn} from "./loggers/loggers.js";
 import cluster from "cluster";
 import os from "os";
-import { ProductService } from "./services/productServices.js";
-import { CartService } from "./services/cartServices.js";
+import * as ProductService from "./services/productServices.js";
+import * as CartService  from "./services/cartServices.js";
+import * as UserService from "./services/userServices.js";
 
 import dotenv from "dotenv"
 dotenv.config()
 
-const MONGO_URL = process.env.MONGO_URL
 
 const app = express();
 
-const Products = new ProductService;
-
-const Cart = new CartService;
-
 const PORT = process.env.PORT || 8081;
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,37 +34,22 @@ app.use((req, res, next) => {
   next()
 })
 
-MongoConnection();
-
-
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
-//Passport session
+//Session config
+app.use(session);
 
-app.use(
-    session({
-  
-      store: new MongoStore({
-        mongoUrl: MONGO_URL,
-        ttl: 6000,
-      }),
-  
-      secret: "shhhhhhhhhhhhhhhhhhhhh",
-      resave: false,
-      saveUninitialized: true  ,
-  
-    })
-  );
-  
-  
-  app.use(passport.initialize());
-  app.use(passport.session());
-  passportConfig(passport);
+// passportConfig -> passport + strategy
+
+passportConfig(passport, UserService);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
   /* --------------------- AUTH --------------------------- */
-  
   
   // REGISTER
   
@@ -84,10 +62,7 @@ app.use(
         passport.authenticate("register", {
           failureRedirect: "/failregister",
           successRedirect: "/login",
-        
       })
-  
-
   );
   
   // FAIL
@@ -114,9 +89,6 @@ app.use(
   
   app.get('/login', async (req, res) => {
     if (req.isAuthenticated()) {
-      
-
-
       res.render('pages/index', {
         usuario: req.user.name, 
       });
@@ -126,9 +98,6 @@ app.use(
   });
 
 
-  
-
-  
   app.post('/login',
     passport.authenticate("login", {
       failureRedirect: "/faillogin",
@@ -136,7 +105,6 @@ app.use(
     })
   );
 
-  
   app.post("/logout", (req, res) => {
     req.session.destroy((err) => {
       if (!err)  res.render('pages/logOut', {usuario:req.user.name});    
@@ -144,7 +112,6 @@ app.use(
     });
   });
   
-
   app.get("/profile", (req,res) => {
     if (req.isAuthenticated()) {
 
@@ -162,12 +129,9 @@ app.use(
   }
   } )
 
-
   app.get("/products", async (req,res) => {
     if (req.isAuthenticated()) {
-
-      const productos = await Products.getAll();
-
+      const productos = await ProductService.getAllProducts();
       res.render('pages/products', {
         productos:productos, 
         id_user: req.user._id, 
@@ -177,12 +141,9 @@ app.use(
   }
   } )
 
-
   app.get("/cart", async (req,res) => {
     if (req.isAuthenticated()) {
-
-      const productos = await Cart.getCart(req.user._id);
-
+      const productos = await CartService.getCart(req.user._id);
       res.render('pages/cart', {
         name: req.user.name,
         id_user: req.user._id,
@@ -193,46 +154,14 @@ app.use(
   }
   } )
 
-//Router productos
+//Routers
 
 app.use('/api/productos', logRequestInfo, routerProductos);
-
-
-
-
-
-app.get('/api', logRequestInfo,  (req,res)=> {
-    res.sendFile(path.resolve('public/index.html'));
-})
-
-
-
-//Router carrito
-
 app.use('/api/carrito', logRequestInfo, routerCarrito);
-
-
-app.get('/api', logRequestInfo,  (req,res)=> {
-    res.sendFile(path.resolve('public/index.html'));
-})
-
-//Router users
-
 app.use('/api/user', logRequestInfo, routerUsers);
-
-
-app.get('/api', logRequestInfo,  (req,res)=> {
-    res.sendFile(path.resolve('public/index.html'));
-})
-
-//Router orders
-
 app.use('/api/orders', logRequestInfo, routerOrders);
 
-
 const modo = process.env.MODO == "";
-
-
 
 app.all('*', (req,res)=>{
   loggerWarn.warn(`ruta ${req.path} metodo ${req.method} no implementada`)
@@ -264,8 +193,5 @@ else {
   server.on("error", (error) => console.log(error.message));
 
 }
-
-
-
 
 export {app};

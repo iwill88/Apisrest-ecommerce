@@ -1,27 +1,24 @@
 import { Product } from '../models/productSchema.js';
 import { loggerError } from "../loggers/loggers.js";
+import ProductDaoMongoDb from '../daos/ProductMongoDao.js';
+
+let ProductDAO = new ProductDaoMongoDb()
 
 
-class ProductService {
-   constructor () {
-       this.database =  Product
-   }
-
-
-     getAll(){
+     const getAllProducts = async () => {
 
      try {
-          return  this.database.find({});
+          return  await ProductDAO.getAll();
      } catch (err) {
           console.log(err)
      }
         
    }
-   find(_id) {
+   const getProductById = async (id) => {
 
      try {
-          console.log("id",_id);
-          return this.database.findById({_id});
+          console.log("id",id);
+          return  await ProductDAO.getById(id);
      } catch (err) {
           console.log(err)
      }
@@ -30,7 +27,7 @@ class ProductService {
         
    }
 
-   async post(newProduct) {
+   const  createProduct = async(newProduct) => {
 
 
      try {
@@ -39,7 +36,7 @@ class ProductService {
                ...newProduct,
                
            }
-           return await this.database.create(product);
+           return await ProductDAO.save(product);
      } catch (err) {
           console.log(err)
      }
@@ -49,11 +46,11 @@ class ProductService {
 
    }
 
-   delete(_id) {
+   const deleteProductById = async(id) =>{
 
      try {
-          console.log("id",_id);
-        return this.database.deleteOne({_id});
+          console.log("id",id);
+        return await ProductDAO.deleteById(id);
      } catch (err) {
           console.log(err)
      }
@@ -62,23 +59,25 @@ class ProductService {
         
    }
 
-   async update(_id,body) {
+   const  updateProductById = async(id,body) => {
      
      try {
           let updatedProduct = { 
                timestamp: new Date().toISOString(),
                ...body
            };
-           return await this.database.findOneAndUpdate({_id},{$set:updatedProduct});
+           return await ProductDAO.updateById(id,updatedProduct)
      } catch (err) {
           console.log(err)
      }
         
-
-
-       
-
    }
-}
 
-export  {ProductService}
+
+export  {
+     getAllProducts,
+     getProductById,
+     createProduct,
+     deleteProductById,
+     updateProductById
+}

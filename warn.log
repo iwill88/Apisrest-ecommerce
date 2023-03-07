@@ -2,3 +2,7 @@
 [2023-02-27T18:32:00.487] [WARN] warn - ruta /api/orders/63f93184d08a08e05bc92ad9 metodo POST no implementada
 [2023-02-27T18:43:52.192] [WARN] warn - ruta /api/orders/63f93184d08a08e05bc92ad9 metodo POST no implementada
 [2023-02-27T18:44:07.687] [WARN] warn - ruta /api/orders metodo POST no implementada
+[2023-03-05T20:58:09.301] [WARN] warn - ruta /api/productos/6405483a6c881502da893060 metodo POST no implementada
+[2023-03-05T21:18:02.780] [WARN] warn - ruta /api/carrito/64054c733a9bca10fb009964 metodo POST no implementada
+[2023-03-05T21:44:41.129] [WARN] warn - ruta /favicon.ico metodo GET no implementada
+[2023-03-07T11:14:29.717] [WARN] warn - ruta /favicon.ico metodo GET no implementada
