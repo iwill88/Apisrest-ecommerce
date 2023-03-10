@@ -13,13 +13,11 @@ import { passportConfig } from "./config/Passport/passport.js";
 import {logger,loggerWarn} from "./loggers/loggers.js";
 import cluster from "cluster";
 import os from "os";
-import * as ProductService from "./services/productServices.js";
-import * as CartService  from "./services/cartServices.js";
-import * as UserService from "./services/userServices.js";
+import UserService from "./services/userServices.js";
+import { configAuthRouter } from "./routers/auth.js";
 
 import dotenv from "dotenv"
 dotenv.config()
-
 
 const app = express();
 
@@ -49,113 +47,12 @@ passportConfig(passport, UserService);
 app.use(passport.initialize());
 app.use(passport.session());
 
-  /* --------------------- AUTH --------------------------- */
-  
-  // REGISTER
-  
-  app.get("/register", (req, res) => {
-    res.render('pages/register');
-  });
-  
-  app.post(
-    "/register",upload.single("picture"), 
-        passport.authenticate("register", {
-          failureRedirect: "/failregister",
-          successRedirect: "/login",
-      })
-  );
-  
-  // FAIL
-  
-  app.get("/failregister", (req, res) => {
-    res.render('pages/failregister');
-  });
-  
-  app.get("/faillogin", (req, res) => {
-    res.render('pages/faillogin');
-  });
-  
-  // BACK
-  
-  app.post("/backRegister", (req,res) => {
-    res.redirect('/register')
-  })
-  
-  app.post("/backLogin", (req,res) => {
-    res.redirect('/login')
-  })
-  
-  // LOGIN
-  
-  app.get('/login', async (req, res) => {
-    if (req.isAuthenticated()) {
-      res.render('pages/index', {
-        usuario: req.user.name, 
-      });
-  } else {
-    res.render('pages/login');
-  }
-  });
+const authRouter = express.Router();
 
-
-  app.post('/login',
-    passport.authenticate("login", {
-      failureRedirect: "/faillogin",
-      successRedirect: "/login",
-    })
-  );
-
-  app.post("/logout", (req, res) => {
-    req.session.destroy((err) => {
-      if (!err)  res.render('pages/logOut', {usuario:req.user.name});    
-      else console.log({ status: "Logout ERROR", body: err });
-    });
-  });
-  
-  app.get("/profile", (req,res) => {
-    if (req.isAuthenticated()) {
-
-
-      res.render('pages/profile', {
-        usuario: req.user.email,
-        name: req.user.name,
-        address: req.user.address,
-        age: req.user.age,
-        phone: req.user.phone,
-        picture: req.user.picture,
-      });
-  } else {
-    res.render('pages/login');
-  }
-  } )
-
-  app.get("/products", async (req,res) => {
-    if (req.isAuthenticated()) {
-      const productos = await ProductService.getAllProducts();
-      res.render('pages/products', {
-        productos:productos, 
-        id_user: req.user._id, 
-        });
-  } else {
-    res.render('pages/login');
-  }
-  } )
-
-  app.get("/cart", async (req,res) => {
-    if (req.isAuthenticated()) {
-      const productos = await CartService.getCart(req.user._id);
-      res.render('pages/cart', {
-        name: req.user.name,
-        id_user: req.user._id,
-        productos: productos
-      });
-  } else {
-    res.render('pages/login');
-  }
-  } )
+configAuthRouter(authRouter, upload, passport);
 
 //Routers
-
+app.use("/", authRouter);
 app.use('/api/productos', logRequestInfo, routerProductos);
 app.use('/api/carrito', logRequestInfo, routerCarrito);
 app.use('/api/user', logRequestInfo, routerUsers);

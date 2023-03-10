@@ -1,43 +1,46 @@
-import * as UserService from "../services/userServices.js";
+import UserService from "../services/userServices.js";
+import { UserDTO } from "../dtos/UserDto.js";
+ 
 
-
+const UserServices = new UserService();
 
 const getAll = async (req,res)=>{
     
-    res.json(await UserService.getAllUsers());
+    const data = await UserServices.getAllUsers();
+
+    res.json(data.map((user) => new UserDTO(user)));
 }
 
 const find = async (req,res)=>{
     
-    const user = await UserService.findUserById(req.params.id);
-    console.log(user);
-    res.json(user);
+    const user = await UserServices.findUserById(req.params.id);
+    
+    res.json(new UserDTO(user));
 }
 
 const findByEmail = async (req,res)=>{
     
-    const user = await UserService.findUserByEmail(req.body.email);
-    console.log(user);
-    res.json(user);
+    const user = await UserServices.findUserByEmail(req.body.email);
+    res.json(new UserDTO(user));
 }
 
 const post = async (req,res)=>{
     
-    const newUser = await UserService.saveUser(req.body)
+    const newUser = await UserServices.saveUser(req.body)
   
-    res.json(newUser);
+    res.json(new UserDTO(newUser));
 }
 
 const deleteUser = async (req,res)=>{
     
-    const user= await UserService.deleteUserById(req.params.id);
+    const user= await UserServices.deleteUserById(req.params.id);
     res.json(user);
 }
 
 const updateUser = async (req,res)=>{
     
-    const updatedUser= await UserService.updateUser(req.params.id,req.body);
-    res.json(updatedUser);
+    const updatedUser= await UserServices.updateUser(req.params.id,req.body);
+    res.json(new UserDTO(updatedUser));
 }
 
 

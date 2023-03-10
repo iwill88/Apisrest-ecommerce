@@ -1,83 +1,65 @@
 import { Product } from '../models/productSchema.js';
 import { loggerError } from "../loggers/loggers.js";
-import ProductDaoMongoDb from '../daos/ProductMongoDao.js';
-
-let ProductDAO = new ProductDaoMongoDb()
+import { ProductDAO } from '../daos/index.js';
 
 
-     const getAllProducts = async () => {
-
-     try {
-          return  await ProductDAO.getAll();
-     } catch (err) {
-          console.log(err)
-     }
-        
-   }
-   const getProductById = async (id) => {
-
-     try {
-          console.log("id",id);
-          return  await ProductDAO.getById(id);
-     } catch (err) {
-          console.log(err)
-     }
-        
-
-        
-   }
-
-   const  createProduct = async(newProduct) => {
-
-
-     try {
-          let product = {
-               timestamp:new Date().toISOString(),
-               ...newProduct,
-               
-           }
-           return await ProductDAO.save(product);
-     } catch (err) {
-          console.log(err)
-     }
-        
-
-        
-
-   }
-
-   const deleteProductById = async(id) =>{
-
-     try {
-          console.log("id",id);
-        return await ProductDAO.deleteById(id);
-     } catch (err) {
-          console.log(err)
-     }
-        
-
-        
-   }
-
-   const  updateProductById = async(id,body) => {
+export default class ProductService {
      
-     try {
-          let updatedProduct = { 
-               timestamp: new Date().toISOString(),
-               ...body
-           };
-           return await ProductDAO.updateById(id,updatedProduct)
-     } catch (err) {
-          console.log(err)
+     constructor() {
+          this.dato = ProductDAO
      }
-        
-   }
 
+     async getAllProducts () {
 
-export  {
-     getAllProducts,
-     getProductById,
-     createProduct,
-     deleteProductById,
-     updateProductById
+          try {
+               return  await this.dato.getAll();
+          } catch (err) {
+               console.log(err)
+          }    
+        }
+
+     async getProductById (id) {
+     
+          try {
+               console.log("id",id);
+               return  await this.dato.getById(id);
+          } catch (err) {
+               console.log(err)
+          } 
+        }
+     
+        async createProduct(newProduct) {
+          try {
+               let product = {
+                    timestamp:new Date().toISOString(),
+                    ...newProduct,  
+                }
+                return await this.dato.save(product);
+          } catch (err) {
+               console.log(err)
+          }
+        }
+     
+        async deleteProductById (id) {
+          try {
+               console.log("id",id);
+             return await this.dato.deleteById(id);
+          } catch (err) {
+               console.log(err)
+          }
+        }
+     
+        async updateProductById (id,body) {
+          try {
+               let updatedProduct = { 
+                    timestamp: new Date().toISOString(),
+                    ...body
+                };
+                return await this.dato.updateById(id,updatedProduct)
+          } catch (err) {
+               console.log(err)
+          }
+        }
+
 }
+

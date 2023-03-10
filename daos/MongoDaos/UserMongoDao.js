@@ -1,4 +1,4 @@
-import MongoDbContainer from "../containers/mongoContainer.js";
+import MongoDbContainer from "../../containers/mongoContainer.js";
 import {Schema} from 'mongoose'
 
 class UserDaoMongoDb extends MongoDbContainer {

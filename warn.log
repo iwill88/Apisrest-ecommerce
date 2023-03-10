@@ -6,3 +6,7 @@
 [2023-03-05T21:18:02.780] [WARN] warn - ruta /api/carrito/64054c733a9bca10fb009964 metodo POST no implementada
 [2023-03-05T21:44:41.129] [WARN] warn - ruta /favicon.ico metodo GET no implementada
 [2023-03-07T11:14:29.717] [WARN] warn - ruta /favicon.ico metodo GET no implementada
+[2023-03-09T14:39:55.621] [WARN] warn - ruta /favicon.ico metodo GET no implementada
+[2023-03-10T16:15:02.985] [WARN] warn - ruta /login metodo GET no implementada
+[2023-03-10T16:15:04.499] [WARN] warn - ruta /favicon.ico metodo GET no implementada
+[2023-03-10T16:19:26.316] [WARN] warn - ruta /regiter metodo GET no implementada

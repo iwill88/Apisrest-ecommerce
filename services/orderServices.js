@@ -6,29 +6,27 @@ import { sendOrderMailer } from '../helpers/sendOrderMailer.js';
 import { orderSMS } from '../helpers/orderSMS.js';
 import { orderWhatsapp } from '../helpers/orderWhatsapp.js';
 import { loggerError } from "../loggers/loggers.js";
-import CartDaoMongoDb from '../daos/CartMongoDao.js';
-import ProductDaoMongoDb from '../daos/ProductMongoDao.js';
-import UserDaoMongoDb from '../daos/UserMongoDao.js';
-import OrderDaoMongoDb from '../daos/OrderMongoDao.js';
-
-let CartDAO = new CartDaoMongoDb();
-let UserDAO = new UserDaoMongoDb();
-let OrderDAO = new OrderDaoMongoDb()
+import { CartDAO, OrderDAO, UserDAO } from '../daos/index.js';
 
 
+export default class OrderService{
+    constructor(){
+        this.CartDao = CartDAO,
+        this.OrdertDao = OrderDAO,
+        this.UserDao = UserDAO
+    }
 
-    const findOrderById = async(id) => {
+    async findOrderById(id) {
 
         try {
             console.log("id",id);
-            return await OrderDAO.getById(id);
+            return await this.OrdertDao.getById(id);
         } catch (err) {
             console.log(err)
         }
-  
     }
 
-    const createOrder = async(id_user) => {
+    async createOrder(id_user) {
 
         try {
 
@@ -36,9 +34,9 @@ let OrderDAO = new OrderDaoMongoDb()
 
             let productosOrder = []
     
-            const user = await UserDAO.getByCriteria(owner)
+            const user = await this.UserDao.getByCriteria(owner)
     
-            const cart = await CartDAO.getByIdPopulate(owner,"productos","item")
+            const cart = await this.CartDao.getByIdPopulate(owner,"productos","item")
     
                 cart.productos.forEach((item) => {
                     productosOrder.push(item)
@@ -53,9 +51,7 @@ let OrderDAO = new OrderDaoMongoDb()
                 orderBy: user
     
             });
-    
- 
-            
+         
             const savedOrder = await newOrder.save();
               
             user.orders = savedOrder._id;
@@ -69,16 +65,10 @@ let OrderDAO = new OrderDaoMongoDb()
 
         } catch (err) {
            console.log(err)
-
         }
-
-
-       
 
     }
 
-
-export {
-    findOrderById,
-    createOrder
 }
+
+    

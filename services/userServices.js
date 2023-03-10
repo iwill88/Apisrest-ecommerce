@@ -1,13 +1,18 @@
 import { User } from "../models/userSchema.js";
 import { loggerError } from "../loggers/loggers.js";
-import UserDaoMongoDb from "../daos/UserMongoDao.js";
+import { UserDAO } from '../daos/index.js';
 import bcrypt from "bcrypt";
 import { sendRegister } from "../helpers/sendRegister.js"
 
-let UserDAO = new UserDaoMongoDb()
+//let UserDAO = new UserDaoMongoDb()
 
 
-    const getAllUsers = async () => {
+export default class UserService{
+    constructor(){
+        this.dao = UserDAO
+    }
+
+    async getAllUsers () {
         try {
             return  await UserDAO.getAll();
         } catch (err) {
@@ -16,7 +21,7 @@ let UserDAO = new UserDaoMongoDb()
            
     }
 
-    const findUserById = async (id) => {
+    async findUserById (id) {
         try {
             console.log("id",id);
             return await UserDAO.getById(id);
@@ -27,7 +32,7 @@ let UserDAO = new UserDaoMongoDb()
     }
 
 
-    const findUserByEmail = async (email) => {
+    async findUserByEmail (email) {
         try {
             return await UserDAO.getByField(email);
         } catch (err){
@@ -37,7 +42,7 @@ let UserDAO = new UserDaoMongoDb()
     }
  
 
-    const saveUser = async(newUser) => {
+    async saveUser (newUser)  {
 
         try {
             await UserDAO.save(newUser);
@@ -48,7 +53,7 @@ let UserDAO = new UserDaoMongoDb()
         
     }
 
-    const updateUser = async(id,body) => {
+    async updateUser (id,body) {
 
         try {
             let updatedUser = { 
@@ -62,7 +67,7 @@ let UserDAO = new UserDaoMongoDb()
 
    }
 
-    const deleteUserById = async(id) => {
+    async deleteUserById (id){
 
         try {
             console.log("id",id);
@@ -76,7 +81,7 @@ let UserDAO = new UserDaoMongoDb()
 
      //services for passport
 
-     const register = async(req, email, password, done) => {
+     async register (req, email, password, done) {
 
         try {
 
@@ -111,7 +116,7 @@ let UserDAO = new UserDaoMongoDb()
      
      }
 
-     const login = async(email, password, done) => {
+     async login (email, password, done) {
 
         try {
  
@@ -130,20 +135,12 @@ let UserDAO = new UserDaoMongoDb()
         }
      
      }
+}
+
+    
 
      
  
 
 
 
- 
-export  {
-    getAllUsers,
-    findUserById,
-    findUserByEmail,
-    saveUser,
-    updateUser,
-    deleteUserById,
-    login,
-    register
-}

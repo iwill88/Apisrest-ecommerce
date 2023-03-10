@@ -1,6 +1,10 @@
 import { Strategy as LocalStrategy } from "passport-local";
+import { UserDTO } from "../../dtos/UserDto.js";
+
 
 const passportConfig = (passport, UserService) => {
+
+  const UserServices = new UserService();
 
   const strategyOptions = { usernameField: "email" };
 
@@ -8,9 +12,9 @@ const passportConfig = (passport, UserService) => {
   
   const registerStrategy = new LocalStrategy(
     { usernameField: "email", passReqToCallback: true },
-    UserService.register
+    UserServices.register
   );
-  const loginStrategy = new LocalStrategy(strategyOptions, UserService.login);
+  const loginStrategy = new LocalStrategy(strategyOptions, UserServices.login);
 
   passport.use(
     "register", registerStrategy
@@ -28,8 +32,9 @@ const passportConfig = (passport, UserService) => {
   });
   
   passport.deserializeUser(async function (email, done) {
-    const usuario = await UserService.findUserByEmail(email);
-    done(null, usuario);
+    const user = await UserServices.findUserByEmail(email);
+    const userFormatted = new UserDTO(user)
+    done(null, userFormatted);
   });
 
 }

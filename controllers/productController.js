@@ -1,36 +1,37 @@
-import * as ProductService from "../services/productServices.js";
+import ProductService from "../services/productServices.js";
+import { ProductDTO } from "../dtos/ProductDto.js";
 
+const ProductServices = new ProductService();
 
 const getAll = async (req,res)=>{
-    
-    res.json(await ProductService.getAllProducts());
+    const data = await ProductServices.getAllProducts()
+    res.json(data.map((product) => new ProductDTO(product)));
     
 }
 
 const find = async (req,res)=>{
     
-    const producto = await ProductService.getProductById(req.params.id);
-    console.log(producto);
-    res.json(producto);
+    const product = await ProductServices.getProductById(req.params.id);
+    res.json(new ProductDTO(product));
 }
 
 const post = async (req,res)=>{
     
-    const newProduct = await ProductService.createProduct(req.body)
+    const newProduct = await ProductServices.createProduct(req.body)
   
-    res.json(newProduct);
+    res.json(new ProductDTO(newProduct));
 }
 
 const deleteProduct = async (req,res)=>{
     
-    const producto= await ProductService.deleteProductById(req.params.id);
-    res.json(producto);
+    const product= await ProductServices.deleteProductById(req.params.id);
+    res.json(new ProductDTO(product));
 }
 
 const update = async (req,res)=>{
     
-    const updatedProduct= await ProductService.updateProductById(req.params.id,req.body);
-    res.json(updatedProduct);
+    const updatedProduct= await ProductServices.updateProductById(req.params.id,req.body);
+    res.json(new ProductDTO(updatedProduct));
 }
 
 
