@@ -68,7 +68,8 @@ export default class MongoDbContainer {
     
       async updateById(id, itemData) {
         try {
-          await this.model.findOneAndUpdate({_id:id},{$set:itemData});
+          const data = await this.model.findOneAndUpdate({_id:id},{$set:itemData});
+          return data;
         } catch (error) {
           console.error(error);
         }
@@ -76,7 +77,8 @@ export default class MongoDbContainer {
 
       async deleteById(id) {
         try {
-          await this.model.deleteOne({ _id: id });
+          const result= await this.model.deleteOne({ _id: id });
+          return result
         } catch (error) {
           console.error(error);
         }

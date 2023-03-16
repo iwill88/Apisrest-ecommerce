@@ -29,14 +29,14 @@ log4js.configure({
       },    
       error:{
         appenders:["loggerErrors", "loggerConsole"],
-        level:"all"
+        level:"error"
       }
     }
   })
   
-const logger = log4js .getLogger('info');
-const loggerWarn = log4js .getLogger("warn");
-const loggerError = log4js .getLogger("error");
+const logger = log4js.getLogger('info');
+const loggerWarn = log4js.getLogger("warn");
+const loggerError = log4js.getLogger("error");
 
 
 export {logger,loggerWarn, loggerError};

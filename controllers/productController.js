@@ -24,8 +24,8 @@ const post = async (req,res)=>{
 
 const deleteProduct = async (req,res)=>{
     
-    const product= await ProductServices.deleteProductById(req.params.id);
-    res.json(new ProductDTO(product));
+    await ProductServices.deleteProductById(req.params.id);
+    res.json(`Se elimino correctamente el producto con ID ${req.params.id}`);
 }
 
 const update = async (req,res)=>{

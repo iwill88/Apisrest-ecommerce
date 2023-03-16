@@ -10,3 +10,5 @@
 [2023-03-10T16:15:02.985] [WARN] warn - ruta /login metodo GET no implementada
 [2023-03-10T16:15:04.499] [WARN] warn - ruta /favicon.ico metodo GET no implementada
 [2023-03-10T16:19:26.316] [WARN] warn - ruta /regiter metodo GET no implementada
+[2023-03-14T14:40:44.711] [WARN] warn - ruta /favicon.ico metodo GET no implementada
+[2023-03-15T21:50:05.693] [WARN] warn - ruta /favicon.ico metodo GET no implementada

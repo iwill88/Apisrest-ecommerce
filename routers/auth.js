@@ -1,5 +1,6 @@
 import ProductService from "../services/productServices.js";
 import CartService  from "../services/cartServices.js";
+import { ProductDTO } from "../dtos/ProductDto.js";
 
 const ProductServices = new ProductService()
 const CartServices = new CartService()
@@ -88,8 +89,9 @@ export const configAuthRouter = (authRouther,upload,passport) => {
     .get("/products", async (req,res) => {
         if (req.isAuthenticated()) {
         const productos = await ProductServices.getAllProducts();
+        const productosFormatted= productos.map((producto)=>new ProductDTO(producto))
         res.render('pages/products', {
-            productos:productos, 
+            productos:productosFormatted, 
             id_user: req.user._id, 
             });
     } else {

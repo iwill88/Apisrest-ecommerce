@@ -1,0 +1,9 @@
+[2023-03-16T11:27:55.769] [ERROR] error - Hubo el siguiente error:
+[2023-03-16T11:42:18.190] [ERROR] error - No se encontró el producto con ID 63f90bc8646913cb5374f909s
+[2023-03-16T12:01:46.926] [ERROR] error - No se actualizo el producto correctamente con ID 64129382f43e23209f2cf2df
+[2023-03-16T12:10:32.275] [ERROR] error - Se produjo un error al intentar actualizar el producto con ID 64129382f43e23209f2cf2df: TypeError: Cannot read properties of undefined (reading 'n')
+[2023-03-16T15:16:21.519] [ERROR] error - No se actualizó el producto con ID 64129382f43e23209f2cf2df
+[2023-03-16T15:30:33.715] [ERROR] error - No se actualizó el producto con ID 64129382f43e23209f2cf2d
+[2023-03-16T15:32:03.262] [ERROR] error - No se borro el producto correctamente con ID 64129382f43e23209f2cf2d
+[2023-03-16T15:35:33.451] [ERROR] error - No se borro el producto correctamente con ID 64129382f43e23209f2cf2d
+[2023-03-16T15:44:31.914] [ERROR] error - No se borro el producto correctamente con ID 64137f87eff08921cde0ca1

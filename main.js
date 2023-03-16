@@ -15,11 +15,17 @@ import cluster from "cluster";
 import os from "os";
 import UserService from "./services/userServices.js";
 import { configAuthRouter } from "./routers/auth.js";
+import cors from "cors";
 
 import dotenv from "dotenv"
 dotenv.config()
 
 const app = express();
+
+app.use(cors({
+  origin:"*",
+  methods:['GET', 'POST', 'PUT', 'DELETE']
+}))
 
 const PORT = process.env.PORT || 8081;
 

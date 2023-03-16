@@ -14,7 +14,7 @@ export default class UserService{
 
     async getAllUsers () {
         try {
-            return  await UserDAO.getAll();
+            return  await this.dao.getAll();
         } catch (err) {
             console.log(err)
         }
@@ -24,7 +24,7 @@ export default class UserService{
     async findUserById (id) {
         try {
             console.log("id",id);
-            return await UserDAO.getById(id);
+            return await this.dao.getById(id);
         } catch (err) {
             console.log(err)
         }
@@ -34,7 +34,7 @@ export default class UserService{
 
     async findUserByEmail (email) {
         try {
-            return await UserDAO.getByField(email);
+            return await this.dao.getByField(email);
         } catch (err){
             console.log(err)
         }
@@ -45,7 +45,7 @@ export default class UserService{
     async saveUser (newUser)  {
 
         try {
-            await UserDAO.save(newUser);
+            await this.dao.save(newUser);
             return newUser;
         } catch (err) {
             console.log(err)
@@ -60,7 +60,8 @@ export default class UserService{
                 timestamp: new Date().toISOString(),
                 ...body
             };
-            return await UserDAO.updateById(id,updatedUser);
+            await this.dao.updateById(id,updatedUser);
+            return await this.dao.getById(id)
         } catch (err) {
             console.log(err)
         }
@@ -71,7 +72,8 @@ export default class UserService{
 
         try {
             console.log("id",id);
-            return await UserDAO.deleteById(id);
+            await this.dao.deleteById(id)
+            return
         } catch (err){
             console.log(err)
         }
@@ -85,7 +87,7 @@ export default class UserService{
 
         try {
 
-                const usuario = await UserDAO.getByField(email); 
+                const usuario = await this.dao.getByField(email); 
 
                 if ( usuario) {
                     
@@ -105,7 +107,7 @@ export default class UserService{
                   picture: `uploaded/${req.file.filename}`
                 };
         
-                UserDAO.save(user);
+                this.dao.save(user);
         
                 sendRegister(user)
           
@@ -120,7 +122,7 @@ export default class UserService{
 
         try {
  
-                const user = await  UserDAO.getByField(email);
+                const user = await  this.dao.getByField(email);
                 
                 if (!user) {
                   return done(null, false);
