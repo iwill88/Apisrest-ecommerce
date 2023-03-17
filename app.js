@@ -11,8 +11,6 @@ import passport from "passport"
 import upload from "./helpers/multer.js";
 import { passportConfig } from "./config/Passport/passport.js";
 import {logger,loggerWarn} from "./loggers/loggers.js";
-import cluster from "cluster";
-import os from "os";
 import UserService from "./services/userServices.js";
 import { configAuthRouter } from "./routers/auth.js";
 import cors from "cors";
@@ -27,7 +25,6 @@ app.use(cors({
   methods:['GET', 'POST', 'PUT', 'DELETE']
 }))
 
-const PORT = process.env.PORT || 8081;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -64,37 +61,12 @@ app.use('/api/carrito', logRequestInfo, routerCarrito);
 app.use('/api/user', logRequestInfo, routerUsers);
 app.use('/api/orders', logRequestInfo, routerOrders);
 
-const modo = process.env.MODO == "";
 
 app.all('*', (req,res)=>{
   loggerWarn.warn(`ruta ${req.path} metodo ${req.method} no implementada`)
   res.status(404).send( { error :-2, descripcion: `ruta ${req.path}`, método: ` ${req.method} no implementada` });
 })
 
-if (modo && cluster.isPrimary){
-  const numCPUs = os.cpus().length
-    
-    console.log(`Número de procesadores: ${numCPUs}`)
-    console.log(`PID MASTER ${process.pid}`)
 
-    for(let i=0; i<numCPUs; i++) {
-        cluster.fork()
-    }
 
-    cluster.on('exit', worker => {
-        console.log('Worker', worker.process.pid, 'died', new Date().toLocaleString())
-        cluster.fork()
-    })
-}
-
-else {
-
-  const server = app.listen(PORT, () => {
-    console.log(`https://localhost:${PORT}`);
-  })
-
-  server.on("error", (error) => console.log(error.message));
-
-}
-
-export {app};
+export default app;

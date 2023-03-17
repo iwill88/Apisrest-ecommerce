@@ -1,4 +1,3 @@
-import { Product } from '../models/productSchema.js';
 import { loggerError } from "../loggers/loggers.js";
 import { ProductDAO } from '../daos/index.js';
 
@@ -19,7 +18,7 @@ export default class ProductService {
                }
                return products
           } catch (err) {
-               loggerError.error(`No se encontraron los productos: ${err}`);
+               loggerError.error(`Se produjo un error al buscar a todos los productos: ${err}`);
                throw err;
           }    
         }

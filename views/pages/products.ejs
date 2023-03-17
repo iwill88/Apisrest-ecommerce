@@ -56,7 +56,7 @@
                         </div>
                         <form action="/api/carrito/addProduct" method="post" >
                             <input  class="hidden" type="number" name="quantity" value=1>
-                            <input  class="hidden" type="text" name="id_prod" value=<%= producto._id %>>
+                            <input  class="hidden" type="text" name="id_prod" value=<%= producto.id %>>
                             <input  class="hidden" type="text" name="id_user" value=<%= id_user %>>
                             <button class="btn btn-success"type="submit">Agregar producto</button>
                         </form>

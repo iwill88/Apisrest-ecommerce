@@ -7,3 +7,11 @@
 [2023-03-16T15:32:03.262] [ERROR] error - No se borro el producto correctamente con ID 64129382f43e23209f2cf2d
 [2023-03-16T15:35:33.451] [ERROR] error - No se borro el producto correctamente con ID 64129382f43e23209f2cf2d
 [2023-03-16T15:44:31.914] [ERROR] error - No se borro el producto correctamente con ID 64137f87eff08921cde0ca1
+[2023-03-16T17:25:36.097] [ERROR] error - No se creo el producto correctamente
+[2023-03-16T17:25:36.099] [ERROR] error - Se produjo un error al intentar crear un nuevo producto: Error: No se creo el producto correctamente
+[2023-03-16T19:40:47.072] [ERROR] error - Se produjo un error al intentar loguearse: TypeError: Cannot read properties of undefined (reading 'getByField')
+[2023-03-16T19:55:57.742] [ERROR] error - No se encontró el carrito del usuario con ID undefined
+[2023-03-16T20:01:06.799] [ERROR] error - No se encontró el carrito del usuario con ID undefined
+[2023-03-16T20:17:37.154] [ERROR] error - No se tienen los datos requeridos
+[2023-03-16T20:25:05.254] [ERROR] error - No se tienen los datos requeridos
+[2023-03-16T20:26:29.811] [ERROR] error - No se tienen los datos requeridos

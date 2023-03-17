@@ -92,7 +92,7 @@ export const configAuthRouter = (authRouther,upload,passport) => {
         const productosFormatted= productos.map((producto)=>new ProductDTO(producto))
         res.render('pages/products', {
             productos:productosFormatted, 
-            id_user: req.user._id, 
+            id_user: req.user.id, 
             });
     } else {
         res.render('pages/login');
@@ -101,10 +101,10 @@ export const configAuthRouter = (authRouther,upload,passport) => {
 
     .get("/cart", async (req,res) => {
         if (req.isAuthenticated()) {
-        const productos = await CartServices.getCart(req.user._id);
+        const productos = await CartServices.getCart(req.user.id);
         res.render('pages/cart', {
             name: req.user.name,
-            id_user: req.user._id,
+            id_user: req.user.id,
             productos: productos
         });
     } else {

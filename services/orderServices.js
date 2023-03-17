@@ -1,6 +1,3 @@
-import { Cart } from '../models/cartSchema.js';
-import { Product } from '../models/productSchema.js';
-import { User } from '../models/userSchema.js';
 import { Order } from '../models/orderSchema.js';
 import { sendOrderMailer } from '../helpers/sendOrderMailer.js';
 import { orderSMS } from '../helpers/orderSMS.js';
@@ -19,10 +16,15 @@ export default class OrderService{
     async findOrderById(id) {
 
         try {
-            console.log("id",id);
-            return await this.OrdertDao.getById(id);
+            const order = await this.OrdertDao.getById(id);
+            if (!order){
+                loggerError.error(`No se encontro la orden con ID ${id}`);
+               throw new Error(`No se encontro la orden con ID ${id}`);
+            }
+            return order
         } catch (err) {
-            console.log(err)
+            loggerError.error(`Se produjo un error al buscar la orden con ID ${id}: ${err}`);
+            throw err;
         }
     }
 
@@ -42,7 +44,13 @@ export default class OrderService{
                     productosOrder.push(item)
                 })
                 
-        
+            if (!user || !cart) {
+                loggerError.error('No se encontraron los datos requeridos');
+                throw new Error('No se encontraron los datos requeridos');
+            }
+ 
+
+
             const newOrder = await new Order({
                 timestamp: new Date().toISOString(),
                 productos: productosOrder,
@@ -64,7 +72,8 @@ export default class OrderService{
             return await user.save();   
 
         } catch (err) {
-           console.log(err)
+            loggerError.error(`Se produjo un error al crear una nueva orden: ${err}`);
+            throw err;
         }
 
     }
